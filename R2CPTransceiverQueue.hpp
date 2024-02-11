@@ -7,6 +7,8 @@
 
 
 
+namespace R2CP {
+
 class R2CPTransceiverQueue final {
     /* R2CPTransceiverQueue is a singleton class.
     It's object can be used everywhere in code. */
@@ -45,3 +47,5 @@ public:
     uint32_t getreceptionqueuer2cppacketscount();
     uint32_t gettransmissionqueuer2cppacketscount();
 };
+
+} // End of namespace: R2CP

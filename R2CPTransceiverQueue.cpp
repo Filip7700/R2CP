@@ -4,9 +4,9 @@
 
 
 
-R2CPTransceiverQueue::R2CPTransceiverQueue() {
-    this->maxreceptionqueuesize = R2CPTransceiverQueue::DEFAULTMAXQUEUESIZE;
-    this->maxtransmissionqueuesize = R2CPTransceiverQueue::DEFAULTMAXQUEUESIZE;
+R2CP::R2CPTransceiverQueue::R2CPTransceiverQueue() {
+    this->maxreceptionqueuesize = R2CP::R2CPTransceiverQueue::DEFAULTMAXQUEUESIZE;
+    this->maxtransmissionqueuesize = R2CP::R2CPTransceiverQueue::DEFAULTMAXQUEUESIZE;
 
     this->receptionqueuesize = 0U;
     this->transmissionqueuesize = 0U;
@@ -14,18 +14,18 @@ R2CPTransceiverQueue::R2CPTransceiverQueue() {
 
 
 
-R2CPTransceiverQueue::~R2CPTransceiverQueue() {}
+R2CP::R2CPTransceiverQueue::~R2CPTransceiverQueue() {}
 
 
 
-R2CPTransceiverQueue& R2CPTransceiverQueue::getinstance() {
-    static R2CPTransceiverQueue instance;
+R2CP::R2CPTransceiverQueue& R2CP::R2CPTransceiverQueue::getinstance() {
+    static R2CP::R2CPTransceiverQueue instance;
     return instance;
 }
 
 
 
-void R2CPTransceiverQueue::pushtoreceptionqueue(const std::vector<uint8_t> &r2cppacket) {
+void R2CP::R2CPTransceiverQueue::pushtoreceptionqueue(const std::vector<uint8_t> &r2cppacket) {
     uint32_t r2cppacketsize = r2cppacket.size();
 
     uint32_t newreceptionqueuesize = this->getreceptionqueuesize() + r2cppacketsize;
@@ -42,7 +42,7 @@ void R2CPTransceiverQueue::pushtoreceptionqueue(const std::vector<uint8_t> &r2cp
 
 
 
-void R2CPTransceiverQueue::pushtotransmissionqueue(const std::vector<uint8_t> &r2cppacket) {
+void R2CP::R2CPTransceiverQueue::pushtotransmissionqueue(const std::vector<uint8_t> &r2cppacket) {
     uint32_t r2cppacketsize = r2cppacket.size();
 
     uint32_t newtransmissionqueuesize = this->gettransmissionqueuesize() + r2cppacketsize;
@@ -59,7 +59,7 @@ void R2CPTransceiverQueue::pushtotransmissionqueue(const std::vector<uint8_t> &r
 
 
 
-std::vector<uint8_t> R2CPTransceiverQueue::popfromreceptionqueue() {
+std::vector<uint8_t> R2CP::R2CPTransceiverQueue::popfromreceptionqueue() {
     const uint32_t QUEUEPOPPOSITION = 0U;
 
     std::vector<uint8_t> r2cppacket;
@@ -85,7 +85,7 @@ std::vector<uint8_t> R2CPTransceiverQueue::popfromreceptionqueue() {
 
 
 
-std::vector<uint8_t> R2CPTransceiverQueue::popfromtransmissionqueue() {
+std::vector<uint8_t> R2CP::R2CPTransceiverQueue::popfromtransmissionqueue() {
     const uint32_t QUEUEPOPPOSITION = 0U;
 
     std::vector<uint8_t> r2cppacket;
@@ -111,26 +111,26 @@ std::vector<uint8_t> R2CPTransceiverQueue::popfromtransmissionqueue() {
 
 
 
-void R2CPTransceiverQueue::setmaxqueuesize(const uint32_t newmaxreceptionqueuesize, const uint32_t newmaxtransmissionqueuesize) {
+void R2CP::R2CPTransceiverQueue::setmaxqueuesize(const uint32_t newmaxreceptionqueuesize, const uint32_t newmaxtransmissionqueuesize) {
     this->maxreceptionqueuesize = newmaxreceptionqueuesize;
     this->maxtransmissionqueuesize = newmaxtransmissionqueuesize;
 }
 
 
 
-void R2CPTransceiverQueue::setmaxreceptionqueuesize(const uint32_t newmaxreceptionqueuesize) {
+void R2CP::R2CPTransceiverQueue::setmaxreceptionqueuesize(const uint32_t newmaxreceptionqueuesize) {
     this->maxreceptionqueuesize = newmaxreceptionqueuesize;
 }
 
 
 
-void R2CPTransceiverQueue::setmaxtransmissionqueuesize(const uint32_t newmaxtransmissionqueuesize) {
+void R2CP::R2CPTransceiverQueue::setmaxtransmissionqueuesize(const uint32_t newmaxtransmissionqueuesize) {
     this->maxtransmissionqueuesize = newmaxtransmissionqueuesize;
 }
 
 
 
-uint32_t R2CPTransceiverQueue::getreceptionqueuesize() {
+uint32_t R2CP::R2CPTransceiverQueue::getreceptionqueuesize() {
     std::scoped_lock receptionqueuelock(this->receptionqueuemutex);
     uint32_t receptionqueuesizecopy = this->receptionqueuesize;
 
@@ -139,7 +139,7 @@ uint32_t R2CPTransceiverQueue::getreceptionqueuesize() {
 
 
 
-uint32_t R2CPTransceiverQueue::gettransmissionqueuesize() {
+uint32_t R2CP::R2CPTransceiverQueue::gettransmissionqueuesize() {
     std::scoped_lock transmissionqueuelock(this->transmissionqueuemutex);
     uint32_t transmissionqueuesizecopy = this->transmissionqueuesize;
 
@@ -148,7 +148,7 @@ uint32_t R2CPTransceiverQueue::gettransmissionqueuesize() {
 
 
 
-uint32_t R2CPTransceiverQueue::getreceptionqueuer2cppacketscount() {
+uint32_t R2CP::R2CPTransceiverQueue::getreceptionqueuer2cppacketscount() {
     std::scoped_lock receptionqueuelock(this->receptionqueuemutex);
     uint32_t receptionqueuer2cppacketscount = this->receptionqueue.size();
 
@@ -157,7 +157,7 @@ uint32_t R2CPTransceiverQueue::getreceptionqueuer2cppacketscount() {
 
 
 
-uint32_t R2CPTransceiverQueue::gettransmissionqueuer2cppacketscount() {
+uint32_t R2CP::R2CPTransceiverQueue::gettransmissionqueuer2cppacketscount() {
     std::scoped_lock transmissionqueuelock(this->transmissionqueuemutex);
     uint32_t transmissionqueuer2cppacketscount = this->transmissionqueue.size();
 
