@@ -3,7 +3,6 @@
 
 #include "Logger.hpp"
 
-#include "R2CPCommandDictionary.hpp"
 #include "R2CPParser.hpp"
 
 

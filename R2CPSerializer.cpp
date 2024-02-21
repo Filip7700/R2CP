@@ -1,7 +1,6 @@
 #include <stdexcept>
 
 #include "R2CPSerializer.hpp"
-#include "R2CPCommandDictionary.hpp"
 
 
 
