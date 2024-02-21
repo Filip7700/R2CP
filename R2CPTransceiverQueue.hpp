@@ -46,6 +46,9 @@ public:
     uint32_t gettransmissionqueuesize();
     uint32_t getreceptionqueuer2cppacketscount();
     uint32_t gettransmissionqueuer2cppacketscount();
+
+    R2CPTransceiverQueue(R2CPTransceiverQueue&) = delete;
+    void operator=(const R2CPTransceiverQueue&) = delete;
 };
 
 } // End of namespace: R2CP
