@@ -2,14 +2,14 @@
 
 
 
-R2CP::R2CPCommand::R2CPCommand(const uint32_t commandcode, const std::vector<R2CP::R2CPParameter> &commandparameters) {
+R2CP::R2CPCommand::R2CPCommand(const R2CPCommandCodeType commandcode, const std::vector<R2CP::R2CPParameter> &commandparameters) {
     this->commandcode = commandcode;
     this->commandparameters = commandparameters;
 }
 
 
 
-uint32_t R2CP::R2CPCommand::getcommandcode() {
+R2CPCommandCodeType R2CP::R2CPCommand::getcommandcode() {
     uint32_t cc = this->commandcode;
     return cc;
 }

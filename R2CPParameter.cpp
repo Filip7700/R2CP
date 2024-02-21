@@ -2,14 +2,14 @@
 
 
 
-R2CP::R2CPParameter::R2CPParameter(const uint32_t parametercode, const std::vector<uint8_t> &parameterdata) {
+R2CP::R2CPParameter::R2CPParameter(const R2CPParameterCodeType parametercode, const std::vector<uint8_t> &parameterdata) {
     this->parametercode = parametercode;
     this->parameterdata = parameterdata;
 }
 
 
 
-uint32_t R2CP::R2CPParameter::getparametercode() {
+R2CPParameterCodeType R2CP::R2CPParameter::getparametercode() {
     uint32_t pc = this->parametercode;
     return pc;
 }

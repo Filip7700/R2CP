@@ -23,17 +23,17 @@ R2CP::R2CPCommandDictionary::R2CPCommandDictionary() {
     this->parametersset.insert(INVALIDPARAMETER);
 
     // Helper variables for command parameters map
-    std::set<uint32_t> noparametersset;
+    std::set<R2CPParameterCodeType> noparametersset;
     noparametersset.insert(NOPARAMETERS);
 
-    std::set<uint32_t> invalidparametersset;
+    std::set<R2CPParameterCodeType> invalidparametersset;
     invalidparametersset.insert(INVALIDPARAMETER);
 
-    std::set<uint32_t> motordutycycleparametersset;
+    std::set<R2CPParameterCodeType> motordutycycleparametersset;
     motordutycycleparametersset.insert(MOTORRIGHT);
     motordutycycleparametersset.insert(MOTORLEFT);
 
-    std::set<uint32_t> imageparametersset;
+    std::set<R2CPParameterCodeType> imageparametersset;
     motordutycycleparametersset.insert(IMAGEWIDTH);
     motordutycycleparametersset.insert(IMAGECHANNELS);
     motordutycycleparametersset.insert(IMAGEDATA);
@@ -72,11 +72,10 @@ R2CP::R2CPCommandDictionary& R2CP::R2CPCommandDictionary::getinstance() {
 }
 
 
+std::set<R2CPParameterCodeType> R2CP::R2CPCommandDictionary::getcommandparameters(R2CPCommandCodeType commandcode) {
+    std::set<R2CPParameterCodeType> commandparameters;
 
-std::set<uint32_t> R2CP::R2CPCommandDictionary::getcommandparameters(uint32_t commandcode) {
-    std::set<uint32_t> commandparameters;
-
-    std::set<uint32_t>::iterator it = this->commandsset.find(commandcode);
+    std::set<R2CPCommandCodeType>::iterator it = this->commandsset.find(commandcode);
 
     if(it != this->commandsset.end()) {
         commandparameters = this->commandparametersmap[commandcode];
@@ -90,10 +89,10 @@ std::set<uint32_t> R2CP::R2CPCommandDictionary::getcommandparameters(uint32_t co
 
 
 
-uint32_t R2CP::R2CPCommandDictionary::getcommandcontenttype(uint32_t commandcode) {
-    uint32_t commandcontenttype = NOCONTENT;
+R2CPCommandContentType R2CP::R2CPCommandDictionary::getcommandcontenttype(R2CPCommandCodeType commandcode) {
+    R2CPCommandContentType commandcontenttype = NOCONTENT;
 
-    std::set<uint32_t>::iterator it = this->commandsset.find(commandcode);
+    std::set<R2CPCommandCodeType>::iterator it = this->commandsset.find(commandcode);
 
     if(it != this->commandsset.end()) {
         commandcontenttype = this->commandcontenttypemap[commandcode];
@@ -104,10 +103,10 @@ uint32_t R2CP::R2CPCommandDictionary::getcommandcontenttype(uint32_t commandcode
 
 
 
-bool R2CP::R2CPCommandDictionary::checkifvalidcommand(uint32_t commandcode) {
+bool R2CP::R2CPCommandDictionary::checkifvalidcommand(R2CPCommandCodeType commandcode) {
     bool iscommandvalid = false;
 
-    std::set<uint32_t>::iterator it = this->commandsset.find(commandcode);
+    std::set<R2CPCommandCodeType>::iterator it = this->commandsset.find(commandcode);
 
     if(commandcode != INVALIDCOMMAND && it != this->commandsset.end()) {
         iscommandvalid = true;

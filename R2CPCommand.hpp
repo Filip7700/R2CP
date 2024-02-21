@@ -6,14 +6,14 @@ namespace R2CP {
 
 class R2CPCommand {
 private:
-    uint32_t commandcode;
+    R2CPCommandCodeType commandcode;
     std::vector<R2CPParameter> commandparameters;
 
 public:
-    R2CPCommand(const uint32_t, const std::vector<R2CPParameter>&);
+    R2CPCommand(const R2CPCommandCodeType, const std::vector<R2CPParameter>&);
 
     // Getters
-    uint32_t getcommandcode();
+    R2CPCommandCodeType getcommandcode();
     std::vector<R2CPParameter>& getcommandparameters();
     std::vector<R2CPParameter> getcommandparametersdeepcopy();
     uint32_t getnumberofcommandparameters();

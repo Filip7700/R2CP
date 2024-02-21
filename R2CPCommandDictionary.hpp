@@ -17,7 +17,7 @@
 #define PRINTMESSAGE    8U
 #define INVALIDCOMMAND  9U
 
-// R2CP built-in arguments
+// R2CP built-in parameters
 #define NOPARAMETERS      0U
 #define MOTORRIGHT        1U
 #define MOTORLEFT         2U
@@ -38,15 +38,21 @@
 
 
 
+typedef uint32_t R2CPCommandCodeType;
+typedef uint32_t R2CPParameterCodeType;
+typedef uint32_t R2CPCommandContentType;
+
+
+
 namespace R2CP {
 
 // Singleton class
 class R2CPCommandDictionary final {
 private:
-    std::set<uint32_t> commandsset;
-    std::set<uint32_t> parametersset;
-    std::map<uint32_t, std::set<uint32_t>> commandparametersmap;
-    std::map<uint32_t, uint32_t> commandcontenttypemap;
+    std::set<R2CPCommandCodeType> commandsset;
+    std::set<R2CPParameterCodeType> parametersset;
+    std::map<R2CPCommandCodeType, std::set<R2CPParameterCodeType>> commandparametersmap;
+    std::map<R2CPCommandCodeType, R2CPCommandContentType> commandcontenttypemap;
 
     // Defualt constructor
     R2CPCommandDictionary();
@@ -57,9 +63,9 @@ public:
 
     // Getters
     static R2CPCommandDictionary& getinstance();
-    std::set<uint32_t> getcommandparameters(uint32_t);
-    uint32_t getcommandcontenttype(uint32_t);
-    bool checkifvalidcommand(uint32_t);
+    std::set<R2CPParameterCodeType> getcommandparameters(R2CPCommandCodeType);
+    R2CPCommandContentType getcommandcontenttype(R2CPCommandCodeType);
+    bool checkifvalidcommand(R2CPCommandCodeType);
 };
 
 } // End of namespace: R2CP
