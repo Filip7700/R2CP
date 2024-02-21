@@ -49,7 +49,7 @@ std::string Logger::gettimestring() {
 
 
 
-std::string Logger::getlogseveritystring(const LogSeverity severity) {
+std::string Logger::getlogseveritystring(const LogSeverityType severity) {
     // None severity by default
     std::string logseveritystring = "[ NONE  ]";
 
@@ -94,7 +94,7 @@ void Logger::logstream(const std::string &message) {
 
 
 
-void Logger::log(const std::string &message, const LogSeverity severity) {
+void Logger::log(const std::string &message, const LogSeverityType severity) {
     // Main log method
 
     std::string timestring = this->gettimestring();
@@ -121,7 +121,7 @@ void Logger::log(const std::string &message, const LogSeverity severity) {
 
 
 
-void Logger::addfilelogger(const std::string &filename, const LogSeverity severity) {
+void Logger::addfilelogger(const std::string &filename, const LogSeverityType severity) {
     std::scoped_lock loggerlock(loggermutex);
     this->fileloggers.push_back(new FileLogger(filename, severity));
 }
@@ -206,13 +206,13 @@ void Logger::logfatal(const std::string &message) {
 
 
 
-void Logger::setstdoutlogseverity(const LogSeverity severity) {
+void Logger::setstdoutlogseverity(const LogSeverityType severity) {
     this->stdoutlogseverity = severity;
 }
 
 
 
-Logger::FileLogger::FileLogger(const std::string &filename, const LogSeverity severity) {
+Logger::FileLogger::FileLogger(const std::string &filename, const LogSeverityType severity) {
     this->filelogname = filename;
     this->filelogseverity = severity;
     this->filelog.open(filename, std::ios::out);
@@ -226,7 +226,7 @@ Logger::FileLogger::~FileLogger() {
 
 
 
-void Logger::FileLogger::log(const std::string &message, const LogSeverity severity) {
+void Logger::FileLogger::log(const std::string &message, const LogSeverityType severity) {
     if(severity > Logger::NONE && this->filelogseverity > Logger::NONE && severity >= this->filelogseverity) {
         this->filelog << message << std::endl;
     }

@@ -21,7 +21,7 @@
 
 
 
-typedef uint8_t LogSeverity;
+typedef uint8_t LogSeverityType;
 
 
 
@@ -31,12 +31,12 @@ class Logger final {
 
 public:
     // Log severities
-    static const LogSeverity NONE    = 0U;
-    static const LogSeverity DEBUG   = 1U;
-    static const LogSeverity INFO    = 2U;
-    static const LogSeverity WARNING = 3U;
-    static const LogSeverity ERROR   = 4U;
-    static const LogSeverity FATAL   = 5U;
+    static const LogSeverityType NONE    = 0U;
+    static const LogSeverityType DEBUG   = 1U;
+    static const LogSeverityType INFO    = 2U;
+    static const LogSeverityType WARNING = 3U;
+    static const LogSeverityType ERROR   = 4U;
+    static const LogSeverityType FATAL   = 5U;
 
 private:
     Logger();
@@ -49,22 +49,22 @@ private:
     private:
         std::string filelogname;
         std::fstream filelog;
-        LogSeverity filelogseverity;
+        LogSeverityType filelogseverity;
 
     public:
-        FileLogger(const std::string&, const LogSeverity);
+        FileLogger(const std::string&, const LogSeverityType);
         ~FileLogger();
-        void log(const std::string&, const LogSeverity);
+        void log(const std::string&, const LogSeverityType);
     };
 
     /* Private Attributes
        ================== */
 
-    const LogSeverity DEFAULTLOGSEVERITY = DEBUG;
+    const LogSeverityType DEFAULTLOGSEVERITY = DEBUG;
 
     /* Severity used for standard output.
     Also it's used when logging using iostream. */
-    LogSeverity stdoutlogseverity;
+    LogSeverityType stdoutlogseverity;
 
     std::vector<FileLogger*> fileloggers;
     std::mutex loggermutex;
