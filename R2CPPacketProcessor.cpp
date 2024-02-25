@@ -1,4 +1,5 @@
 #include <chrono>
+#include <functional>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -93,7 +94,9 @@ void R2CP::R2CPPacketProcessor::unregisterallrobotmodules() {
 
 void R2CP::R2CPPacketProcessor::run() {
     this->isrunning = true;
-    this->packetprocessorthread = new std::thread(&R2CP::R2CPPacketProcessor::runthread, this);
+    this->packetprocessorthread = new std::thread(std::bind(
+        &this->runthread,
+        this));
 }
 
 
