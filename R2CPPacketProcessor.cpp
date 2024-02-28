@@ -95,7 +95,7 @@ void R2CP::R2CPPacketProcessor::unregisterallrobotmodules() {
 void R2CP::R2CPPacketProcessor::run() {
     this->isrunning = true;
     this->packetprocessorthread = new std::thread(std::bind(
-        &this->runthread,
+        &R2CP::R2CPPacketProcessor::runthread,
         this));
 }
 
@@ -119,6 +119,8 @@ void R2CP::R2CPPacketProcessor::runthread() {
         this->executetask();
         std::this_thread::sleep_for(std::chrono::milliseconds(this->polltimeoutinmilliseconds));
     }
+
+    Logger::loginfo("Exiting packet processing thread.");
 }
 
 
@@ -144,7 +146,7 @@ void R2CP::R2CPPacketProcessor::executetask() {
 
                 try {
                     R2CP::IR2CPRobotModule *robotmodule = this->robotmodulesmap.at(commandcode);
-                    std::vector<R2CPCommand> reactiveresponsecommands = robotmodule->evaluatereactive(*it);
+                    std::vector<R2CP::R2CPCommand> reactiveresponsecommands = robotmodule->evaluatereactive(*it);
 
                     uint32_t reactiveresponsecommandscount = reactiveresponsecommands.size();
 
@@ -159,7 +161,7 @@ void R2CP::R2CPPacketProcessor::executetask() {
             }
 
             // Evaluate active robot modules functions
-            for(std::set<IR2CPRobotModule*>::iterator it = this->robotmodulesset.begin(); it != this->robotmodulesset.end(); it++) {
+            for(std::set<R2CP::IR2CPRobotModule*>::iterator it = this->robotmodulesset.begin(); it != this->robotmodulesset.end(); it++) {
                 std::vector<R2CP::R2CPCommand> activeresultcommands = (*it)->evaluateactive();
 
                 uint32_t activeresultcommandscount = activeresultcommands.size();
@@ -173,7 +175,7 @@ void R2CP::R2CPPacketProcessor::executetask() {
             if(responsecommandscount > 0U) {
                 // Serialize response R2CP commands to R2CP packet
                 std::vector<uint8_t> responser2cppacket = r2cpserializerobj.serializecommands(responsecommands);
-    
+
                 try {
                     transceiverqueueinstance.pushtotransmissionqueue(responser2cppacket);
                 }
@@ -187,7 +189,7 @@ void R2CP::R2CPPacketProcessor::executetask() {
         }
     }
     catch(std::underflow_error &e) {
-        Logger::logwarning(e.what());
+        Logger::loginfo(e.what());
     }
 }
 

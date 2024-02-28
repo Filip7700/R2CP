@@ -37,11 +37,11 @@ void R2CP::R2CPWebSocketServer::run() {
     this->isrunning = true;
 
     this->receptionthread = new std::thread(websocketpp::lib::bind(
-        &this->receiver2cppackettask,
+        &R2CP::R2CPWebSocketServer::receiver2cppackettask,
         this));
 
     this->transmissionthread = new std::thread(websocketpp::lib::bind(
-        &this->transmitr2cppackettask,
+        &R2CP::R2CPWebSocketServer::transmitr2cppackettask,
         this));
 }
 
@@ -50,18 +50,18 @@ void R2CP::R2CPWebSocketServer::run() {
 void R2CP::R2CPWebSocketServer::halt() {
     this->isrunning = false;
 
+    if(this->transmissionthread != nullptr) {
+        this->waituntilfinished(this->transmissionthread);
+        delete this->transmissionthread;
+        this->transmissionthread = nullptr;
+    }
+
     if(this->receptionthread != nullptr) {
         this->wsserver.stop_listening();
         this->closewsserverconnections();
         this->waituntilfinished(this->receptionthread);
         delete this->receptionthread;
         this->receptionthread = nullptr;
-    }
-
-    if(this->transmissionthread != nullptr) {
-        this->waituntilfinished(this->transmissionthread);
-        delete this->transmissionthread;
-        this->transmissionthread = nullptr;
     }
 }
 
@@ -129,7 +129,7 @@ void R2CP::R2CPWebSocketServer::receiver2cppackettask() {
 
         this->wsserver.set_message_handler(
             websocketpp::lib::bind(
-                &this->onmessage,
+                &R2CP::R2CPWebSocketServer::onmessage,
                 this,
                 &this->wsserver,
                 websocketpp::lib::placeholders::_1,
@@ -137,19 +137,19 @@ void R2CP::R2CPWebSocketServer::receiver2cppackettask() {
 
         this->wsserver.set_open_handler(
             websocketpp::lib::bind(
-                &this->onopen,
+                &R2CP::R2CPWebSocketServer::onopen,
                 this,
                 &this->wsserver,
                 websocketpp::lib::placeholders::_1));
 
         this->wsserver.set_close_handler(
             websocketpp::lib::bind(
-                &this->onclose,
+                &R2CP::R2CPWebSocketServer::onclose,
                 this,
                 &this->wsserver,
                 websocketpp::lib::placeholders::_1));
 
-        this->wsserver.listen("localhost", "46000");
+        this->wsserver.listen(4600);
         this->wsserver.start_accept();
 
         Logger::loginfo("Starting R2CP WebSocket server...");
@@ -161,6 +161,8 @@ void R2CP::R2CPWebSocketServer::receiver2cppackettask() {
     catch(...) {
         Logger::logerror("Unknown exception occured during R2CP WebSocket server setup.");
     }
+
+    Logger::loginfo("Exiting R2CP packet reception thread.");
 }
 
 
@@ -177,11 +179,13 @@ void R2CP::R2CPWebSocketServer::transmitr2cppackettask() {
             }
         }
         catch(std::underflow_error &e) {
-            Logger::logwarning(e.what());
+            Logger::loginfo(e.what());
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(this->polltimeoutinmilliseconds));
     }
+
+    Logger::loginfo("Exiting R2CP packet transmission thread.");
 }
 
 
@@ -193,7 +197,9 @@ void R2CP::R2CPWebSocketServer::waituntilfinished(std::thread *const workingthre
 
 
 void R2CP::R2CPWebSocketServer::closewsserverconnections() {
-    websocketpp::server<websocketpp::config::asio>::connection_ptr con = this->wsserver.get_con_from_hdl(this->operatorconnectionhandle);
-    con->close(websocketpp::close::status::going_away, "Goodbye!");
-    this->hasconnection = false;
+    if(this->hasconnection) {
+        websocketpp::server<websocketpp::config::asio>::connection_ptr con = this->wsserver.get_con_from_hdl(this->operatorconnectionhandle);
+        con->close(websocketpp::close::status::going_away, "Goodbye!");
+        this->hasconnection = false;
+    }
 }

@@ -10,7 +10,7 @@ namespace R2CP {
 
 class IR2CPRobotModule {
 public:
-    virtual std::vector<R2CPCommand> evaluatereactive(const R2CPCommand&) = 0;
+    virtual std::vector<R2CPCommand> evaluatereactive(R2CPCommand&) = 0;
     virtual std::vector<R2CPCommand> evaluateactive() = 0;
 };
 
