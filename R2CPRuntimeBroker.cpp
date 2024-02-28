@@ -18,8 +18,8 @@ R2CP::R2CPRuntimeBroker::R2CPRuntimeBroker(
 
 
 R2CP::R2CPRuntimeBroker::~R2CPRuntimeBroker() {
-    this->robotserver.halt();
     this->packetprocessor.halt();
+    this->robotserver.halt();
 }
 
 
@@ -33,6 +33,9 @@ void R2CP::R2CPRuntimeBroker::run() {
     while(userinput != "q") {
         std::cin >> userinput;
     }
+
+    this->packetprocessor.halt();
+    this->robotserver.halt();
 }
 
 

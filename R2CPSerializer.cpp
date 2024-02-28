@@ -21,7 +21,7 @@ std::vector<uint8_t> R2CP::R2CPSerializer::serializecommands(std::vector<R2CP::R
     }
 
     // Empty R2CP packet
-    std::vector<uint8_t> r2cppacket(numberofbytesinr2cppacket, 0U);
+    std::vector<uint8_t> r2cppacket;
 
     this->writeuin32tor2cppacket(r2cppacket, this->R2CPMAGICNUMBER);
 
@@ -171,14 +171,10 @@ void R2CP::R2CPSerializer::writeuin32tor2cppacket(std::vector<uint8_t> &r2cppack
     this->serializingoffsetstack.pop_back();
 
     if(offset + 4U <= numberofbytesinr2cppacket) {
-        uint32_t offset1 = offset + 1U;
-        uint32_t offset2 = offset + 2U;
-        uint32_t offset3 = offset + 3U;
-
-        r2cppacket[offset] = (uint32value & 4278190080U) >> 24U;
-        r2cppacket[offset1] = (uint32value & 16711680U) >> 16U;
-        r2cppacket[offset2] = (uint32value & 65280U) >> 8U;
-        r2cppacket[offset3] = uint32value & 255U;
+        r2cppacket.push_back((uint32value & 4278190080U) >> 24U);
+        r2cppacket.push_back((uint32value & 16711680U) >> 16U);
+        r2cppacket.push_back((uint32value & 65280U) >> 8U);
+        r2cppacket.push_back(uint32value & 255U);
 
         offset += 4U;
 
@@ -204,8 +200,7 @@ void R2CP::R2CPSerializer::writebytestor2cppacket(std::vector<uint8_t> &r2cppack
 
     if(offset + numberofwritingbytes <= numberofbytesinr2cppacket) {
         for(uint32_t i = 0U; i < numberofwritingbytes; i++) {
-            uint32_t offseti = offset + i;
-            r2cppacket[offseti] = writingbytes.at(i);
+            r2cppacket.push_back(writingbytes.at(i));
         }
 
         offset += numberofwritingbytes;

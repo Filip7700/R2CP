@@ -347,10 +347,8 @@ std::vector<uint8_t> R2CP::R2CPParser::readbytesfromr2cppacket(const std::vector
     this->parsingoffsetstack.pop_back();
 
     if(offset + numberofbytestoread <= numberofbytesinr2cppacket) {
-        readr2cpbytes.reserve(numberofbytestoread);
-
         for(uint32_t i = 0U; i < numberofbytestoread; i++) {
-            readr2cpbytes[i] = r2cppacket.at(offset + i);
+            readr2cpbytes.push_back(r2cppacket.at(offset + i));
         }
 
         offset += numberofbytestoread;
