@@ -31,12 +31,12 @@ class Logger final {
 
 public:
     // Log severities
-    static const LogSeverityType NONE    = 0U;
-    static const LogSeverityType DEBUG   = 1U;
-    static const LogSeverityType INFO    = 2U;
-    static const LogSeverityType WARNING = 3U;
-    static const LogSeverityType ERROR   = 4U;
-    static const LogSeverityType FATAL   = 5U;
+    static const LogSeverityType LOGSEVERITYNONE    = 0U;
+    static const LogSeverityType LOGSEVERITYDEBUG   = 1U;
+    static const LogSeverityType LOGSEVERITYINFO    = 2U;
+    static const LogSeverityType LOGSEVERITYWARNING = 3U;
+    static const LogSeverityType LOGSEVERITYERROR   = 4U;
+    static const LogSeverityType LOGSEVERITYFATAL   = 5U;
 
 private:
     Logger();
@@ -60,7 +60,7 @@ private:
     /* Private Attributes
        ================== */
 
-    const LogSeverityType DEFAULTLOGSEVERITY = DEBUG;
+    const LogSeverityType DEFAULTLOGSEVERITY = LOGSEVERITYDEBUG;
 
     /* Severity used for standard output.
     Also it's used when logging using iostream. */
@@ -110,7 +110,7 @@ public:
         // Advanced Convinient Method (Formatted Output Support)
         std::string message = convertformattostring(format, arguments...);
         Logger &lref = Logger::getinstance();
-        lref.log(message, DEBUG);
+        lref.log(message, LOGSEVERITYDEBUG);
     }
 
     template<class... Args>
@@ -118,7 +118,7 @@ public:
         // Advanced Convinient Method (Formatted Output Support)
         std::string message = convertformattostring(format, arguments...);
         Logger &lref = Logger::getinstance();
-        lref.log(message, INFO);
+        lref.log(message, LOGSEVERITYINFO);
     }
 
     template<class... Args>
@@ -126,7 +126,7 @@ public:
         // Advanced Convinient Method (Formatted Output Support)
         std::string message = convertformattostring(format, arguments...);
         Logger &lref = Logger::getinstance();
-        lref.log(message, WARNING);
+        lref.log(message, LOGSEVERITYWARNING);
     }
 
     template<class... Args>
@@ -134,7 +134,7 @@ public:
         // Advanced Convinient Method (Formatted Output Support)
         std::string message = convertformattostring(format, arguments...);
         Logger &lref = Logger::getinstance();
-        lref.log(message, ERROR);
+        lref.log(message, LOGSEVERITYERROR);
     }
 
     template<class... Args>
@@ -142,13 +142,14 @@ public:
         // Advanced Convinient Method (Formatted Output Support)
         std::string message = convertformattostring(format, arguments...);
         Logger &lref = Logger::getinstance();
-        lref.log(message, FATAL);
+        lref.log(message, LOGSEVERITYFATAL);
     }
 
     template<class... Args>
     static std::string convertformattostring(const char *format, Args... arguments) {
         unsigned int formatsize = (unsigned int)strlen(format);
         unsigned int buffersize = formatsize + ((unsigned int)sizeof(arguments) + ... + 0U);
+        buffersize *= 2U;
 
         char *buffer = new char[buffersize];
         for(unsigned int i = 0U; i < buffersize; i++) {

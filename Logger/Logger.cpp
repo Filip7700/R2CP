@@ -54,19 +54,19 @@ std::string Logger::getlogseveritystring(const LogSeverityType severity) {
     std::string logseveritystring = "[ NONE  ]";
 
     switch(severity) {
-    case Logger::DEBUG:
+    case Logger::LOGSEVERITYDEBUG:
         logseveritystring = "[ DEBUG ]";
         break;
-    case Logger::INFO:
+    case Logger::LOGSEVERITYINFO:
         logseveritystring = "[ INFO  ]";
         break;
-    case Logger::WARNING:
+    case Logger::LOGSEVERITYWARNING:
         logseveritystring = "[WARNING]";
         break;
-    case Logger::ERROR:
+    case Logger::LOGSEVERITYERROR:
         logseveritystring = "[ ERROR ]";
         break;
-    case Logger::FATAL:
+    case Logger::LOGSEVERITYFATAL:
         logseveritystring = "[ FATAL ]";
         break;
     default:
@@ -110,7 +110,7 @@ void Logger::log(const std::string &message, const LogSeverityType severity) {
     std::scoped_lock loggerlock(this->loggermutex);
 
     // Output log entry to standard output
-    if(severity > Logger::NONE && this->stdoutlogseverity > Logger::NONE && severity >= this->stdoutlogseverity) {
+    if(severity > Logger::LOGSEVERITYNONE && this->stdoutlogseverity > Logger::LOGSEVERITYNONE && severity >= this->stdoutlogseverity) {
         std::cout << entrystring << std::endl;
     }
 
@@ -169,7 +169,7 @@ Logger& Logger::getinstance() {
 void Logger::logdebug(const std::string &message) {
     // Convinient Log Method
     Logger &lref = Logger::getinstance();
-    lref.log(message, Logger::DEBUG);
+    lref.log(message, Logger::LOGSEVERITYDEBUG);
 }
 
 
@@ -177,7 +177,7 @@ void Logger::logdebug(const std::string &message) {
 void Logger::loginfo(const std::string &message) {
     // Convinient Log Method
     Logger &lref = Logger::getinstance();
-    lref.log(message, Logger::INFO);
+    lref.log(message, Logger::LOGSEVERITYINFO);
 }
 
 
@@ -185,7 +185,7 @@ void Logger::loginfo(const std::string &message) {
 void Logger::logwarning(const std::string &message) {
     // Convinient Log Method
     Logger &lref = Logger::getinstance();
-    lref.log(message, Logger::WARNING);
+    lref.log(message, Logger::LOGSEVERITYWARNING);
 }
 
 
@@ -193,7 +193,7 @@ void Logger::logwarning(const std::string &message) {
 void Logger::logerror(const std::string &message) {
     // Convinient Log Method
     Logger &lref = Logger::getinstance();
-    lref.log(message, Logger::ERROR);
+    lref.log(message, Logger::LOGSEVERITYERROR);
 }
 
 
@@ -201,7 +201,7 @@ void Logger::logerror(const std::string &message) {
 void Logger::logfatal(const std::string &message) {
     // Convinient Log Method
     Logger &lref = Logger::getinstance();
-    lref.log(message, Logger::FATAL);
+    lref.log(message, Logger::LOGSEVERITYFATAL);
 }
 
 
@@ -227,7 +227,7 @@ Logger::FileLogger::~FileLogger() {
 
 
 void Logger::FileLogger::log(const std::string &message, const LogSeverityType severity) {
-    if(severity > Logger::NONE && this->filelogseverity > Logger::NONE && severity >= this->filelogseverity) {
+    if(severity > Logger::LOGSEVERITYNONE && this->filelogseverity > Logger::LOGSEVERITYNONE && severity >= this->filelogseverity) {
         this->filelog << message << std::endl;
     }
 }
