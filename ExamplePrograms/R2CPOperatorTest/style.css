@@ -1,0 +1,135 @@
+body {
+    background-color: #0F0F0F;
+    color: seagreen;
+    font-size: 20px;
+    font-family: Arial, "Liberation Sans Regular", sans-serif;
+    margin: 10px;
+}
+
+h1 {
+    width: 1200px;
+    margin-right: auto;
+    margin-left: auto;
+    color: green;
+    font-size: 60px;
+    font-family: "Lucida Console", "Liberation Mono", Monaco, monospace;
+}
+
+h2 {
+    color: lime;
+    font-size: 30px;
+    font-family: "Lucida Console", "Liberation Mono", Monaco, monospace;
+}
+
+#connectionformarea, #messagingformarea, #printingarea, #joystickarea {
+    width: 1200px;
+}
+
+#connectionformarea, #messagingformarea {
+    margin-top: 10px;
+    margin-right: auto;
+    margin-bottom: 10px;
+    margin-left: auto;
+    padding: 10px;
+    border-width: 3px;
+    border-color: seagreen;
+    border-style: outset;
+    font-family: "Lucida Console", "Liberation Mono", Monaco, monospace;
+}
+
+input[type=text] {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 6px;
+    width: 600px;
+    font-size: 20px;
+    font-family: "Lucida Console", "Liberation Mono", Monaco, monospace;
+    color: seagreen;
+    background-color: #0F0F0F;
+    border-color: green;
+    border-style: inset;
+    border-width: 3px;
+}
+
+input[type=submit], button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 6px;
+    font-size: 20px;
+    font-family: Arial, "Liberation Sans Regular", sans-serif;
+    color: seagreen;
+    background-color: #0F0F0F;
+    border-color: green;
+    border-style: inset;
+    border-width: 3px;
+}
+
+input.serveripinput {
+    width: 300px;
+}
+
+input.serverportinput {
+    width: 100px;
+}
+
+#joystickarea {
+    margin-top: 10px;
+    margin-right: auto;
+    margin-bottom: 10px;
+    margin-left: auto;
+    padding: 10px;
+    border-width: 3px;
+    border-color: seagreen;
+    border-style: outset;
+    font-size: 20px;
+    font-family: "Lucida Console", "Liberation Mono Regular", Monaco, monospace;
+}
+
+#joydiv {
+    width: 300px;
+    height: 300px;
+    margin-top: 30px;
+    margin-right: auto;
+    margin-bottom: 30px;
+    margin-left: auto;
+/*
+    border-width: 3px;
+    border-color: seagreen;
+    border-style: outset;
+*/
+}
+
+#joyparams {
+    width: 1200px;
+    margin-top: 30px;
+    margin-right: auto;
+    margin-bottom: 30px;
+    margin-left: auto;
+}
+
+#printingarea {
+    margin-top: 10px;
+    margin-right: auto;
+    margin-bottom: 10px;
+    margin-left: auto;
+    padding: 10px;
+    border-width: 3px;
+    border-color: seagreen;
+    border-style: outset;
+}
+
+#printingarea h2 {
+    margin-left: 10px;
+    margin-right: 10px;
+    border-bottom-width: 3px;
+    border-bottom-color: green;
+    border-bottom-style: solid;
+}
+
+#messagesarea {
+    margin: 60px;
+}
+
+#messagesarea p {
+    text-align: justify;
+}
